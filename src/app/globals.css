@@ -1,0 +1,155 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Spotify core */
+  --sp-black:       #121212;
+  --sp-dark:        #181818;
+  --sp-card:        #282828;
+  --sp-card-hover:  #3e3e3e;
+  --sp-green:       #1db954;
+  --sp-green-hover: #1ed760;
+  --sp-white:       #ffffff;
+  --sp-subdued:     #a7a7a7;
+  --sp-text:        #b3b3b3;
+
+  /* Layout dimensions */
+  --sidebar-width:  240px;
+  --player-height:  90px;
+
+  /* Wrapped gradients — one per career year */
+  --wrapped-2021: linear-gradient(135deg, #ff6b6b 0%, #feca57 100%);
+  --wrapped-2022: linear-gradient(135deg, #48dbfb 0%, #ff9ff3 100%);
+  --wrapped-2023: linear-gradient(135deg, #ff9f43 0%, #ee5a24 100%);
+  --wrapped-2024: linear-gradient(135deg, #a29bfe 0%, #6c5ce7 100%);
+  --wrapped-2025: linear-gradient(135deg, #00b894 0%, #00cec9 100%);
+
+  /* Custom cursor vars */
+  --cx: 0px;
+  --cy: 0px;
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+html {
+  scroll-behavior: auto; /* Lenis handles smooth scroll */
+}
+
+body {
+  max-width: 100vw;
+  overflow-x: hidden;
+  background-color: var(--sp-black);
+  color: var(--sp-white);
+}
+
+/* Hide default scrollbar in main content but allow scrolling */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--sp-dark);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--sp-card-hover);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--sp-subdued);
+}
+
+/* Equalizer bar animation */
+@keyframes eq-bar {
+  0%, 100% { height: 4px; }
+  50%       { height: 16px; }
+}
+
+.eq-bar {
+  display: inline-block;
+  width: 3px;
+  background-color: var(--sp-green);
+  border-radius: 2px;
+  animation: eq-bar 0.8s ease-in-out infinite;
+  animation-play-state: paused;
+}
+
+.eq-bar.playing {
+  animation-play-state: running;
+}
+
+.eq-bar:nth-child(1) { animation-delay: 0ms; }
+.eq-bar:nth-child(2) { animation-delay: 150ms; }
+.eq-bar:nth-child(3) { animation-delay: 300ms; }
+.eq-bar:nth-child(4) { animation-delay: 450ms; }
+
+/* Album art spinning when playing */
+.album-art-spinning {
+  animation: spin 4s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+/* Custom cursor */
+.custom-cursor {
+  position: fixed;
+  left: var(--cx);
+  top: var(--cy);
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: var(--sp-green);
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  transition: width 0.2s ease, height 0.2s ease, opacity 0.2s ease;
+  mix-blend-mode: difference;
+}
+
+.custom-cursor-ring {
+  position: fixed;
+  left: var(--cx);
+  top: var(--cy);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid rgba(29, 185, 84, 0.5);
+  pointer-events: none;
+  z-index: 9998;
+  transform: translate(-50%, -50%);
+}
+
+/* Progress bar */
+.progress-bar {
+  height: 4px;
+  background: var(--sp-card-hover);
+  border-radius: 2px;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.progress-bar:hover {
+  height: 6px;
+}
+
+.progress-bar-fill {
+  height: 100%;
+  background: var(--sp-green);
+  border-radius: 2px;
+  transition: width 0.1s linear;
+}
+
+/* Spotify green hover glow */
+.sp-hover-glow:hover {
+  box-shadow: 0 0 20px rgba(29, 185, 84, 0.3);
+}
+

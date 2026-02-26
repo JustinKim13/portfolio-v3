@@ -1,0 +1,12 @@
+[   10156ms] [ERROR] Failed to load resource: the server responded with a status of 400 (Bad Request) @ http://localhost:3000/_next/image?url=%2Fprojects%2Fmadlease.png&w=96&q=75:0
+[   10195ms] [ERROR] Failed to load resource: the server responded with a status of 400 (Bad Request) @ http://localhost:3000/_next/image?url=%2Fprojects%2Fquizclash.png&w=96&q=75:0
+[   26656ms] [ERROR] Failed to load resource: the server responded with a status of 400 (Bad Request) @ http://localhost:3000/_next/image?url=%2Fprojects%2Fflixfinder.png&w=96&q=75:0
+[   26662ms] [ERROR] Failed to load resource: the server responded with a status of 400 (Bad Request) @ http://localhost:3000/_next/image?url=%2Fprojects%2Fportfolio.png&w=96&q=75:0
+[  165815ms] [ERROR] Failed to load resource: the server responded with a status of 400 (Bad Request) @ http://localhost:3000/_next/image?url=%2Fprojects%2Fmadlease.png&w=96&q=75:0
+[  165816ms] [ERROR] Failed to load resource: the server responded with a status of 400 (Bad Request) @ http://localhost:3000/_next/image?url=%2Fprojects%2Fquizclash.png&w=96&q=75:0
+[  165818ms] [ERROR] Failed to load resource: the server responded with a status of 400 (Bad Request) @ http://localhost:3000/_next/image?url=%2Fprojects%2Fflixfinder.png&w=96&q=75:0
+[  165819ms] [ERROR] Failed to load resource: the server responded with a status of 400 (Bad Request) @ http://localhost:3000/_next/image?url=%2Fprojects%2Fportfolio.png&w=96&q=75:0
+[  165877ms] [ERROR] Failed to load resource: the server responded with a status of 400 (Bad Request) @ http://localhost:3000/_next/image?url=%2Fprojects%2Fmadlease.png&w=96&q=75:0
+[  165879ms] [ERROR] Failed to load resource: the server responded with a status of 400 (Bad Request) @ http://localhost:3000/_next/image?url=%2Fprojects%2Fquizclash.png&w=96&q=75:0
+[  165880ms] [ERROR] Failed to load resource: the server responded with a status of 400 (Bad Request) @ http://localhost:3000/_next/image?url=%2Fprojects%2Fflixfinder.png&w=96&q=75:0
+[  165881ms] [ERROR] Failed to load resource: the server responded with a status of 400 (Bad Request) @ http://localhost:3000/_next/image?url=%2Fprojects%2Fportfolio.png&w=96&q=75:0

@@ -1,0 +1,68 @@
+import type { WrappedYear } from "@/types";
+
+export const wrappedYears: WrappedYear[] = [
+  {
+    year: 2023,
+    gradient: "linear-gradient(135deg, #ff9f43 0%, #ee5a24 100%)",
+    headline: "CS + Data Science @ UW-Madison",
+    stat: "You started building real products",
+    company: "University of Wisconsin-Madison",
+    role: "CS + Data Science Student",
+    color: "#ff9f43",
+    icon: "/icons/university.svg",
+    points: [
+      "Enrolled in BS CS + Data Science at UW-Madison — 3.8 GPA",
+      "Kicked off MadLease — a live student sublease platform",
+      "Deepened backend skills: Spring Boot, PostgreSQL, Redis, AWS S3",
+      "Explored systems programming, algorithms, and databases",
+    ],
+  },
+  {
+    year: 2024,
+    gradient: "linear-gradient(135deg, #a29bfe 0%, #6c5ce7 100%)",
+    headline: "ML Engineer @ Astro AI Trading + UW Research",
+    stat: "You trained your first production ML model",
+    company: "Astro AI Trading / UW-Madison",
+    role: "Machine Learning Engineer",
+    color: "#a29bfe",
+    icon: "/icons/ml.svg",
+    points: [
+      "Led a 3-engineer team building ML stock forecasting models at Astro AI",
+      "Built sentiment models with FinBERT & VADER for real-time market insights",
+      "Researched material phase transitions at UW Informatics Skunkworks",
+      "Engineered QuizClash with T5 transformers & WebSocket sync for 100+ players",
+    ],
+  },
+  {
+    year: 2025,
+    gradient: "linear-gradient(135deg, #00b894 0%, #00cec9 100%)",
+    headline: "SWE Intern @ Entegral · Incoming @ Capital One",
+    stat: "You're writing the next chapter",
+    company: "Entegral / Capital One",
+    role: "Software Engineer Intern",
+    color: "#00b894",
+    icon: "/icons/rocket.svg",
+    points: [
+      "Built production full-stack features at Entegral — RDS event syncing & OCR module",
+      "Built a RAG pipeline for Denari using OpenAI embeddings, TimescaleDB & AWS S3",
+      "Awarded the $10,000 Korn Ferry Scholarship for academic excellence & leadership",
+      "Accepted offer for Capital One TIP program — relocating to Chicago · 2026",
+    ],
+  },
+  {
+    year: 2026,
+    gradient: "linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)",
+    headline: "SWE @ Capital One · The Next Chapter",
+    stat: "The story isn't over yet",
+    company: "Capital One",
+    role: "SWE Intern (TIP)",
+    color: "#4facfe",
+    icon: "/icons/rocket.svg",
+    points: [
+      "Joining Capital One as a SWE Intern (TIP) · Chicago · Summer 2026",
+      "Building production-grade features on Capital One's engineering teams",
+      "Continuing to ship ML-powered projects and open-source work",
+      "Targeting full-time SWE / MLE roles — open to opportunities",
+    ],
+  },
+];
