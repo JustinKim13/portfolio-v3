@@ -18,6 +18,9 @@ build
 .env.test.local
 .env.production.local
 
+# Playwright MCP (Claude Code browser tool output)
+.playwright-mcp/
+
 # Misc
 .DS_Store
 *.pem

@@ -24,7 +24,7 @@ export function TrackRow({ project, index }: TrackRowProps) {
         className={cn(
           "grid items-center gap-4 px-4 py-2 rounded-md cursor-pointer",
           "hover:bg-sp-card/50 transition-colors group",
-          "grid-cols-[auto_1fr_56px_auto]"
+          "grid-cols-[32px_1fr_72px_48px]"
         )}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
@@ -91,7 +91,7 @@ export function TrackRow({ project, index }: TrackRowProps) {
         </span>
 
         {/* External links */}
-        <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+        <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity w-12">
           {project.github && (
             <a
               href={project.github}

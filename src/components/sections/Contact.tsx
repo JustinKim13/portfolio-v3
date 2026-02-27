@@ -1,11 +1,12 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { staggerContainer, fadeInUp } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 import { Mail, Github, Linkedin, Music2 } from "lucide-react";
 import { useNowPlaying } from "@/hooks/useNowPlaying";
 import { EqualizerBars } from "@/components/ui/EqualizerBars";
+import { useState, useRef, useEffect } from "react";
 
 const socialLinks = [
   {
@@ -31,8 +32,37 @@ const socialLinks = [
   },
 ];
 
+const followLinks = [
+  {
+    label: "LinkedIn",
+    href: "https://linkedin.com/in/justin-kim13",
+    icon: Linkedin,
+    color: "#0077b5",
+    description: "Connect professionally",
+  },
+  {
+    label: "Email",
+    href: "mailto:jtkimmn13@gmail.com",
+    icon: Mail,
+    color: "#1db954",
+    description: "jtkimmn13@gmail.com",
+  },
+];
+
 export function Contact() {
   const { data } = useNowPlaying();
+  const [followOpen, setFollowOpen] = useState(false);
+  const followRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    function handleClickOutside(e: MouseEvent) {
+      if (followRef.current && !followRef.current.contains(e.target as Node)) {
+        setFollowOpen(false);
+      }
+    }
+    if (followOpen) document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [followOpen]);
 
   return (
     <section
@@ -66,23 +96,67 @@ export function Contact() {
               Justin Kim
             </h2>
             <p className="text-sp-subdued text-sm mt-1">
-              CS + DS @ UW-Madison · Incoming SWE @ Capital One
+              CS / DS @ UW-Madison 
             </p>
           </div>
         </motion.div>
 
         {/* Follow buttons */}
-        <motion.div className="flex gap-3 mb-10" variants={fadeInUp}>
-          <a
-            href="mailto:jtkimmn13@gmail.com"
-            className={cn(
-              "px-6 py-2.5 rounded-full font-bold text-sm",
-              "bg-sp-green hover:bg-sp-green-hover text-black",
-              "transition-colors"
-            )}
-          >
-            Follow
-          </a>
+        <motion.div className="flex gap-3 mb-10 relative" variants={fadeInUp}>
+          <div ref={followRef} className="relative">
+            <button
+              onClick={() => setFollowOpen((o) => !o)}
+              className={cn(
+                "px-6 py-2.5 rounded-full font-bold text-sm",
+                "bg-sp-green hover:bg-sp-green-hover text-black",
+                "transition-colors"
+              )}
+            >
+              Follow
+            </button>
+            <AnimatePresence>
+              {followOpen && (
+                <motion.div
+                  initial={{ opacity: 0, y: 8, scale: 0.95 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, y: 8, scale: 0.95 }}
+                  transition={{ duration: 0.15 }}
+                  className={cn(
+                    "absolute bottom-full mb-2 left-0 z-50",
+                    "bg-sp-card border border-sp-card-hover rounded-xl shadow-xl",
+                    "overflow-hidden min-w-[220px]"
+                  )}
+                >
+                  {followLinks.map(({ label, href, icon: Icon, color, description }) => (
+                    <a
+                      key={label}
+                      href={href}
+                      target={href.startsWith("mailto") ? undefined : "_blank"}
+                      rel="noopener noreferrer"
+                      onClick={() => setFollowOpen(false)}
+                      className={cn(
+                        "flex items-center gap-3 px-4 py-3",
+                        "hover:bg-sp-card-hover transition-colors"
+                      )}
+                    >
+                      <div
+                        className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0"
+                        style={{ backgroundColor: `${color}22` }}
+                      >
+                        <Icon size={15} style={{ color }} />
+                      </div>
+                      <div>
+                        <p className="text-sp-white text-sm font-medium leading-none mb-0.5">
+                          {label}
+                        </p>
+                        <p className="text-sp-subdued text-xs">{description}</p>
+                      </div>
+                    </a>
+                  ))}
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
           <a
             href="/resume.pdf"
             target="_blank"

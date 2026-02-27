@@ -10,6 +10,7 @@ import {
   Cpu,
   Mail,
   Music2,
+  Clock,
 } from "lucide-react";
 import { useEffect, useState } from "react";
 
@@ -74,7 +75,7 @@ export function Sidebar() {
               Justin Kim
             </p>
             <p className="text-sp-subdued text-xs truncate">
-              Incoming SWE @ Capital One
+              SWE / MLE
             </p>
           </div>
         </div>
@@ -155,8 +156,17 @@ export function Sidebar() {
       {/* Mini now playing at bottom of sidebar */}
       {data.title && (
         <div className="px-3 py-3 border-t border-sp-card">
+          {data.isRecentlyPlayed && (
+            <p className="text-sp-subdued text-[9px] uppercase tracking-widest mb-1 px-1">
+              Last played
+            </p>
+          )}
           <div className="flex items-center gap-2">
-            <Music2 size={14} className="text-sp-green flex-shrink-0" />
+            {data.isRecentlyPlayed ? (
+              <Clock size={14} className="text-sp-subdued flex-shrink-0" />
+            ) : (
+              <Music2 size={14} className="text-sp-green flex-shrink-0" />
+            )}
             <div className="flex-1 min-w-0">
               <p className="text-sp-white text-xs font-medium truncate">
                 {data.title}
@@ -165,7 +175,7 @@ export function Sidebar() {
                 {data.artist}
               </p>
             </div>
-            <EqualizerBars isPlaying={true} />
+            {!data.isRecentlyPlayed && <EqualizerBars isPlaying={data.isPlaying} />}
           </div>
         </div>
       )}

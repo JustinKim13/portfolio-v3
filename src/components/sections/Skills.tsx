@@ -6,6 +6,35 @@ import { skillGenres } from "@/constants";
 import { staggerContainer, fadeInUp, scaleIn } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 
+const pillVariants = {
+  hidden: { opacity: 0, scale: 0.5, y: 12 },
+  show: (i: number) => ({
+    opacity: 1,
+    scale: 1,
+    y: 0,
+    transition: {
+      type: "spring" as const,
+      stiffness: 320,
+      damping: 22,
+      delay: i * 0.07,
+    },
+  }),
+};
+
+const cardVariants = {
+  hidden: { opacity: 0, y: 24 },
+  show: (i: number) => ({
+    opacity: 1,
+    y: 0,
+    transition: {
+      type: "spring" as const,
+      stiffness: 260,
+      damping: 24,
+      delay: i * 0.1,
+    },
+  }),
+};
+
 export function Skills() {
   const [activeGenre, setActiveGenre] = useState<string | null>(null);
 
@@ -37,10 +66,9 @@ export function Skills() {
         </motion.p>
       </motion.div>
 
-      {/* Genre pills */}
+      {/* Genre pills — spring pop-in */}
       <motion.div
         className="flex flex-wrap gap-3 mb-10"
-        variants={staggerContainer(0.06, 0.2)}
         initial="hidden"
         whileInView="show"
         viewport={{ once: true }}
@@ -48,36 +76,21 @@ export function Skills() {
         {skillGenres.map((genre, i) => (
           <motion.button
             key={genre.name}
-            variants={{
-              hidden: {
-                opacity: 0,
-                x: (i % 2 === 0 ? -1 : 1) * 40,
-                y: (i < 2 ? -1 : 1) * 20,
-              },
-              show: {
-                opacity: 1,
-                x: 0,
-                y: 0,
-                transition: { duration: 0.5, ease: "easeOut" },
-              },
-            }}
+            custom={i}
+            variants={pillVariants}
+            whileHover={{ scale: 1.08 }}
+            whileTap={{ scale: 0.94 }}
             onClick={() =>
               setActiveGenre(activeGenre === genre.name ? null : genre.name)
             }
             className={cn(
-              "px-5 py-2.5 rounded-full text-sm font-semibold transition-all",
-              "border hover:scale-105 active:scale-95",
-              activeGenre === genre.name
-                ? "scale-105"
-                : "hover:brightness-110"
+              "px-5 py-2.5 rounded-full text-sm font-semibold",
+              "border transition-colors duration-200"
             )}
             style={{
               backgroundColor:
-                activeGenre === genre.name
-                  ? genre.color
-                  : genre.bgColor,
-              color:
-                activeGenre === genre.name ? "#000" : genre.color,
+                activeGenre === genre.name ? genre.color : genre.bgColor,
+              color: activeGenre === genre.name ? "#000" : genre.color,
               borderColor: genre.color,
             }}
             data-cursor="hover"
@@ -128,20 +141,27 @@ export function Skills() {
         )}
       </AnimatePresence>
 
-      {/* All skills grid (shown when nothing selected) */}
+      {/* All skills grid */}
       <AnimatePresence>
         {!activeGenre && (
           <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
+            initial="hidden"
+            animate="show"
             exit={{ opacity: 0 }}
             className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4"
           >
-            {skillGenres.map((genre) => (
-              <div
+            {skillGenres.map((genre, i) => (
+              <motion.div
                 key={genre.name}
-                className="bg-sp-card rounded-xl p-4 hover:bg-sp-card-hover transition-colors cursor-pointer"
+                custom={i}
+                variants={cardVariants}
+                whileHover={{
+                  y: -6,
+                  boxShadow: `0 8px 32px ${genre.color}33`,
+                  borderColor: genre.color,
+                }}
                 onClick={() => setActiveGenre(genre.name)}
+                className="bg-sp-card rounded-xl p-4 cursor-pointer border border-transparent transition-colors"
                 data-cursor="hover"
               >
                 <div
@@ -161,9 +181,11 @@ export function Skills() {
                 </h4>
                 <p className="text-sp-subdued text-xs">
                   {genre.skills.slice(0, 3).join(", ")}
-                  {genre.skills.length > 3 ? ` +${genre.skills.length - 3} more` : ""}
+                  {genre.skills.length > 3
+                    ? ` +${genre.skills.length - 3} more`
+                    : ""}
                 </p>
-              </div>
+              </motion.div>
             ))}
           </motion.div>
         )}

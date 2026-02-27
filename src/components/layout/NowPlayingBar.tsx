@@ -55,7 +55,12 @@ export function NowPlayingBar() {
           </div>
         ) : data.title ? (
           <div className="flex flex-col min-w-0">
-                <span className="text-sp-white text-sm font-medium truncate">
+            {data.isRecentlyPlayed && (
+              <span className="text-sp-subdued text-[10px] uppercase tracking-widest mb-0.5">
+                Last played
+              </span>
+            )}
+            <span className="text-sp-white text-sm font-medium truncate">
               {data.title}
             </span>
             <span className="text-sp-subdued text-xs truncate">
@@ -68,9 +73,9 @@ export function NowPlayingBar() {
           </div>
         )}
 
-        {data.title && (
+        {data.title && !data.isRecentlyPlayed && (
           <EqualizerBars
-            isPlaying={true}
+            isPlaying={data.isPlaying}
             className="ml-1 flex-shrink-0"
           />
         )}
@@ -90,9 +95,9 @@ export function NowPlayingBar() {
               "w-8 h-8 rounded-full flex items-center justify-center",
               "bg-sp-white hover:scale-105 transition-transform text-sp-black"
             )}
-            aria-label={data.title ? "Pause" : "Play"}
+            aria-label={data.isPlaying ? "Pause" : "Play"}
           >
-            {data.title ? (
+            {data.isPlaying ? (
               <Pause size={14} fill="currentColor" />
             ) : (
               <Play size={14} fill="currentColor" className="ml-0.5" />

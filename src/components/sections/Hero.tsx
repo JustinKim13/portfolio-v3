@@ -24,7 +24,7 @@ const featuredCards = [
   },
   {
     id: "skills",
-    title: "Tech Stack",
+    title: "Top Genres",
     subtitle: "Skills & tools",
     gradient: "linear-gradient(135deg, #ff9f43 0%, #ee5a24 100%)",
     tracks: "20+ skills",
@@ -63,7 +63,7 @@ export function Hero() {
           {greeting}, I&apos;m Justin
         </motion.h1>
         <motion.p className="text-sp-subdued mt-1" variants={fadeInUp}>
-          CS + DS @ UW-Madison | Incoming SWE Intern @ Capital One 
+          CS / DS @ UW-Madison | Expected Graduation: Dec 2026
         </motion.p>
       </motion.div>
 
@@ -75,10 +75,9 @@ export function Hero() {
         animate="show"
       >
         {[
-          { label: "Projects Shipped", value: "4+" },
+          { label: "Projects Shipped", value: "6+" },
           { label: "Internships", value: "3+" },
           { label: "GPA", value: "3.8" },
-          { label: "Open to Work", value: "Yes" },
         ].map((stat) => (
           <motion.div
             key={stat.label}
@@ -95,7 +94,7 @@ export function Hero() {
 
       {/* Featured Playlist Cards */}
       <motion.div
-        className="mb-10"
+        className="mb-6"
         variants={staggerContainer(0.05, 0.3)}
         initial="hidden"
         animate="show"
@@ -169,22 +168,23 @@ export function Hero() {
           variants={fadeInUp}
         >
           <p className="text-sp-text leading-relaxed">
-            Hey! I&apos;m Justin Kim — a CS student passionate about building
-            products at the intersection of{" "}
-            <span className="text-sp-green font-medium">
-              software engineering
-            </span>{" "}
-            and{" "}
-            <span className="text-sp-green font-medium">
-              machine learning
-            </span>
-            . I love crafting polished UIs, designing efficient systems, and
-            training models that solve real problems.
+            Hey! I&apos;m Justin Kim — a Computer Science and Data Science
+            student at UW&ndash;Madison who builds and deploys full-stack
+            systems and production backend infrastructure. I care a lot about
+            understanding how systems actually work under the hood, from
+            distributed services to model training pipelines.
           </p>
           <p className="text-sp-text leading-relaxed mt-3">
-            When I&apos;m not coding, you&apos;ll find me discovering new music
-            (check the player below), playing chess, or thinking about how AI
-            will reshape software development.
+            I&apos;m especially interested in machine learning, particularly{" "}
+            <span className="text-sp-green font-medium">LLMs</span> and{" "}
+            <span className="text-sp-green font-medium">agentic systems</span>.
+            I&apos;ve built language models from scratch to deeply understand
+            their mechanics, and I&apos;m a member of the{" "}
+            <span className="text-sp-green font-medium">
+              WAISI AI Safety Fundamentals
+            </span>{" "}
+            technical cohort, where I explore alignment and long-term safety in
+            advanced AI systems.
           </p>
           <div className="mt-4 flex gap-3">
             <a

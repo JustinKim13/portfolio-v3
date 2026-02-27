@@ -43,15 +43,15 @@ export function Projects() {
       </motion.div>
 
       {/* Table header */}
-      <div className="grid grid-cols-[auto_1fr_56px_auto] gap-4 px-4 pb-2 mb-2 border-b border-sp-card">
-        <span className="text-sp-subdued text-xs w-8 text-center">#</span>
+      <div className="grid grid-cols-[32px_1fr_72px_48px] gap-4 px-4 pb-2 mb-2 border-b border-sp-card">
+        <span className="text-sp-subdued text-xs text-center">#</span>
         <span className="text-sp-subdued text-xs uppercase tracking-widest">
           Title
         </span>
-        <span className="text-sp-subdued text-xs flex items-center gap-1">
+        <span className="text-sp-subdued text-xs flex items-center gap-1 justify-end">
           <Clock size={12} /> Dur.
         </span>
-        <span className="w-12" />
+        <span />
       </div>
 
       {/* Track list */}
