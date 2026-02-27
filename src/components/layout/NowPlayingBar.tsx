@@ -31,7 +31,7 @@ export function NowPlayingBar() {
       )}
     >
       {/* Left: Track info */}
-      <div className="flex items-center gap-3 w-[240px] min-w-0">
+      <div className="flex items-center gap-3 flex-1 md:flex-none md:w-[240px] min-w-0">
         {data.albumArt ? (
           <div className="relative w-14 h-14 flex-shrink-0">
             <Image
@@ -76,13 +76,28 @@ export function NowPlayingBar() {
         {data.title && !data.isRecentlyPlayed && (
           <EqualizerBars
             isPlaying={data.isPlaying}
-            className="ml-1 flex-shrink-0"
+            className="ml-1 flex-shrink-0 hidden md:flex"
           />
         )}
       </div>
 
-      {/* Center: Controls + progress */}
-      <div className="flex flex-col items-center gap-1 flex-1 min-w-0">
+      {/* Mobile: play button only */}
+      <button
+        className={cn(
+          "flex md:hidden w-8 h-8 rounded-full items-center justify-center flex-shrink-0",
+          "bg-sp-white text-sp-black"
+        )}
+        aria-label={data.isPlaying ? "Pause" : "Play"}
+      >
+        {data.isPlaying ? (
+          <Pause size={14} fill="currentColor" />
+        ) : (
+          <Play size={14} fill="currentColor" className="ml-0.5" />
+        )}
+      </button>
+
+      {/* Desktop center: Controls + progress */}
+      <div className="hidden md:flex flex-col items-center gap-1 flex-1 min-w-0">
         <div className="flex items-center gap-4">
           <button
             className="text-sp-subdued hover:text-sp-white transition-colors"
@@ -128,8 +143,8 @@ export function NowPlayingBar() {
         </div>
       </div>
 
-      {/* Right: Volume + external link */}
-      <div className="flex items-center gap-3 w-[240px] justify-end">
+      {/* Desktop right: Volume + external link */}
+      <div className="hidden md:flex items-center gap-3 w-[240px] justify-end">
         <Volume2 size={16} className="text-sp-subdued" />
         <div className="progress-bar w-24">
           <div className="progress-bar-fill" style={{ width: "70%" }} />

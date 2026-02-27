@@ -8,8 +8,14 @@ export function CustomCursor() {
   const ringRef = useRef<HTMLDivElement>(null);
   const [isHovering, setIsHovering] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
+  const [isTouchDevice, setIsTouchDevice] = useState(false);
 
   useEffect(() => {
+    setIsTouchDevice(window.matchMedia("(pointer: coarse)").matches);
+  }, []);
+
+  useEffect(() => {
+    if (isTouchDevice) return;
     const handleMove = (e: MouseEvent) => {
       if (!isVisible) setIsVisible(true);
       document.documentElement.style.setProperty("--cx", `${e.clientX}px`);
@@ -47,6 +53,8 @@ export function CustomCursor() {
       document.removeEventListener("mouseleave", handleMouseLeave);
     };
   }, [isVisible]);
+
+  if (isTouchDevice) return null;
 
   return (
     <>

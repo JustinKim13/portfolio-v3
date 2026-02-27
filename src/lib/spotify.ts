@@ -62,17 +62,20 @@ async function getRecentlyPlayed(access_token: string): Promise<NowPlayingData> 
 }
 
 export async function getNowPlaying(): Promise<NowPlayingData> {
+  let access_token: string;
   try {
-    const access_token = await getAccessToken();
+    access_token = await getAccessToken();
+  } catch {
+    return { isPlaying: false };
+  }
 
+  try {
     const response = await fetch(NOW_PLAYING_ENDPOINT, {
-      headers: {
-        Authorization: `Bearer ${access_token}`,
-      },
+      headers: { Authorization: `Bearer ${access_token}` },
       cache: "no-store",
     });
 
-    if (response.status === 204 || response.status > 400) {
+    if (response.status === 204 || response.status >= 400) {
       return getRecentlyPlayed(access_token);
     }
 
@@ -94,7 +97,7 @@ export async function getNowPlaying(): Promise<NowPlayingData> {
       duration: song.item.duration_ms,
     };
   } catch {
-    return { isPlaying: false };
+    return getRecentlyPlayed(access_token);
   }
 }
 
