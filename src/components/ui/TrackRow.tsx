@@ -139,17 +139,27 @@ export function TrackRow({ project, index }: TrackRowProps) {
               )}
             >
               {/* Album cover side */}
-              <div
-                className="h-48 md:h-full md:w-64 flex-shrink-0 relative"
-                style={{
-                  background: `linear-gradient(135deg, ${project.tags[0]?.color}33, ${project.tags[1]?.color ?? project.tags[0]?.color}66)`,
-                }}
-              >
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <span className="text-6xl font-black text-white/20">
-                    {project.title[0]}
-                  </span>
-                </div>
+              <div className="h-48 md:h-full md:w-64 flex-shrink-0 relative overflow-hidden">
+                {project.image ? (
+                  <Image
+                    src={project.image}
+                    alt={project.title}
+                    fill
+                    sizes="(max-width: 768px) 100vw, 256px"
+                    className="object-cover object-top"
+                  />
+                ) : (
+                  <div
+                    className="absolute inset-0 flex items-center justify-center"
+                    style={{
+                      background: `linear-gradient(135deg, ${project.tags[0]?.color}33, ${project.tags[1]?.color ?? project.tags[0]?.color}66)`,
+                    }}
+                  >
+                    <span className="text-6xl font-black text-white/20">
+                      {project.title[0]}
+                    </span>
+                  </div>
+                )}
               </div>
 
               {/* Content side */}
