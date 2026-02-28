@@ -4,7 +4,7 @@ export const wrappedYears: WrappedYear[] = [
   {
     year: 2026,
     gradient: "linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)",
-    headline: "SWE Intern @ Capital One | Founder | LLM Systems",
+    headline: "SWE Intern @ Capital One | Founder @ MadLease ",
     stat: "You started thinking long-term",
     company: "Capital One / MadLease",
     role: "SWE Intern (TIP)",
