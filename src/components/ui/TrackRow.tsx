@@ -140,9 +140,9 @@ export function TrackRow({ project, index }: TrackRowProps) {
             >
               {/* Album cover — always a top banner so landscape screenshots look great */}
               <div className="h-64 md:h-80 w-full flex-shrink-0 relative overflow-hidden">
-                {project.image ? (
+                {(project.modalImage ?? project.image) ? (
                   <Image
-                    src={project.image}
+                    src={project.modalImage ?? project.image}
                     alt={project.title}
                     fill
                     sizes="100vw"

@@ -17,6 +17,7 @@ export interface Project {
   longDescription: string;
   tags: { name: string; color: string }[];
   image: string;
+  modalImage?: string;
   github?: string;
   live?: string;
   duration: string;        // "3 months" — shown as track duration
