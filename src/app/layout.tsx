@@ -9,13 +9,30 @@ import { cn } from "@/lib/utils";
 export const metadata: Metadata = {
   title: "Justin Kim — Portfolio",
   description:
-    "CS student and aspiring SWE/MLE. Building at the intersection of software engineering and machine learning.",
+    "CS / DS student at UW-Madison building full-stack systems, production ML infrastructure, and exploring LLMs and AI safety.",
   keywords: ["software engineer", "machine learning", "portfolio", "React", "TypeScript"],
   authors: [{ name: "Justin Kim" }],
   openGraph: {
     title: "Justin Kim — Portfolio",
-    description: "CS student and aspiring SWE/MLE",
+    description:
+      "CS / DS student at UW-Madison building full-stack systems, production ML infrastructure, and exploring LLMs and AI safety.",
     type: "website",
+    url: "https://justinkim.vercel.app",
+    images: [
+      {
+        url: "https://justinkim.vercel.app/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "Justin Kim — Portfolio",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Justin Kim — Portfolio",
+    description:
+      "CS / DS student at UW-Madison building full-stack systems, production ML infrastructure, and exploring LLMs and AI safety.",
+    images: ["https://justinkim.vercel.app/og-image.png"],
   },
 };
 
