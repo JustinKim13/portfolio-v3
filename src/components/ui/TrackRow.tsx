@@ -135,17 +135,17 @@ export function TrackRow({ project, index }: TrackRowProps) {
               className={cn(
                 "fixed inset-4 md:inset-[10%] z-50 rounded-xl overflow-hidden",
                 "bg-sp-dark border border-sp-card",
-                "flex flex-col md:flex-row"
+                "flex flex-col"
               )}
             >
-              {/* Album cover side */}
-              <div className="h-48 md:h-full md:w-64 flex-shrink-0 relative overflow-hidden">
+              {/* Album cover — always a top banner so landscape screenshots look great */}
+              <div className="h-44 md:h-56 w-full flex-shrink-0 relative overflow-hidden">
                 {project.image ? (
                   <Image
                     src={project.image}
                     alt={project.title}
                     fill
-                    sizes="(max-width: 768px) 100vw, 256px"
+                    sizes="100vw"
                     className="object-cover object-top"
                   />
                 ) : (
