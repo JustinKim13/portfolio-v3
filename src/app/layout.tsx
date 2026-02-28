@@ -5,6 +5,7 @@ import { LenisProvider } from "@/components/layout/LenisProvider";
 import { SpotifyShell } from "@/components/layout/SpotifyShell";
 import { CustomCursor } from "@/components/ui/CustomCursor";
 import { cn } from "@/lib/utils";
+import { Analytics } from "@vercel/analytics/next";
 
 export const metadata: Metadata = {
   title: "Justin Kim — Portfolio",
@@ -54,6 +55,7 @@ export default function RootLayout({
         <LenisProvider>
           <CustomCursor />
           <SpotifyShell>{children}</SpotifyShell>
+          <Analytics />
         </LenisProvider>
       </body>
     </html>
