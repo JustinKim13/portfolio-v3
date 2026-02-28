@@ -8,6 +8,9 @@ import { cn } from "@/lib/utils";
 import { Analytics } from "@vercel/analytics/next";
 
 export const metadata: Metadata = {
+  icons: {
+    icon: "/logo.png",
+  },
   title: "Justin Kim — Portfolio",
   description:
     "CS / DS student at UW-Madison building full-stack systems, production ML infrastructure, and exploring LLMs and AI safety.",
