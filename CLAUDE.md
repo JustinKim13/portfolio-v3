@@ -36,6 +36,20 @@ npm run lint
    ```
 5. Never expose `CLIENT_SECRET` to the client — all Spotify calls go through `/api/spotify/*` routes
 
+### Refresh token expiry (Spotify change, effective July 20, 2026)
+
+Spotify refresh tokens now **expire after 6 months**. `src/lib/spotify.ts` handles this:
+
+- The live refresh token lives in **Redis** (`spotify:refresh-token`), seeded from `SPOTIFY_REFRESH_TOKEN`. If Spotify rotates the token on refresh, the new one is persisted automatically.
+- Access tokens are cached in Redis (`spotify:access-token`) so the token endpoint is hit rarely.
+- On `invalid_grant` (expired/revoked token) the app does **not** retry — it sets `spotify:auth-failed`, logs a re-mint message, and serves the cached last-played track so the site never breaks.
+
+**To re-mint when the token dies** (or proactively, every <6 months):
+```bash
+node scripts/get-refresh-token.mjs
+```
+It runs the Authorization Code flow, **writes the new token to Redis** (clearing the cached access token + failure flag so the site recovers immediately), and prints the value to also update in `.env.local` / Vercel env.
+
 ---
 
 ## Recommended Stack

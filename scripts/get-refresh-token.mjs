@@ -8,6 +8,8 @@ import { resolve } from "path";
 // Load .env.local
 let CLIENT_ID = "";
 let CLIENT_SECRET = "";
+let REDIS_URL = "";
+let REDIS_TOKEN = "";
 try {
   const env = readFileSync(resolve(process.cwd(), ".env.local"), "utf-8");
   for (const line of env.split("\n")) {
@@ -15,8 +17,28 @@ try {
     const val = rest.join("=").trim();
     if (key?.trim() === "SPOTIFY_CLIENT_ID") CLIENT_ID = val;
     if (key?.trim() === "SPOTIFY_CLIENT_SECRET") CLIENT_SECRET = val;
+    if (key?.trim() === "UPSTASH_REDIS_REST_URL") REDIS_URL = val;
+    if (key?.trim() === "UPSTASH_REDIS_REST_TOKEN") REDIS_TOKEN = val;
   }
 } catch {}
+
+// Persist the freshly minted refresh token to Redis (the runtime's source of truth) and
+// clear the cached access token / failure flag so the site recovers immediately.
+async function syncToRedis(refreshToken) {
+  if (!REDIS_URL || !REDIS_TOKEN) return;
+  const cmd = (path) =>
+    fetch(`${REDIS_URL}/${path}`, {
+      headers: { Authorization: `Bearer ${REDIS_TOKEN}` },
+    });
+  try {
+    await cmd(`set/spotify:refresh-token/${encodeURIComponent(refreshToken)}`);
+    await cmd("del/spotify:access-token");
+    await cmd("del/spotify:auth-failed");
+    console.log("✅  Synced new refresh token to Redis (spotify:refresh-token).");
+  } catch (e) {
+    console.error("⚠️  Could not sync to Redis:", e?.message ?? e);
+  }
+}
 
 if (!CLIENT_ID || !CLIENT_SECRET) {
   console.error("❌  Set SPOTIFY_CLIENT_ID and SPOTIFY_CLIENT_SECRET in .env.local first");
@@ -75,7 +97,8 @@ const server = http.createServer(async (req, res) => {
   const data = await tokenRes.json();
 
   if (data.refresh_token) {
-    console.log("\n✅  Add this to your .env.local:\n");
+    await syncToRedis(data.refresh_token);
+    console.log("\n✅  Also update .env.local / Vercel env (the seed value):\n");
     console.log(`SPOTIFY_REFRESH_TOKEN=${data.refresh_token}\n`);
     res.end("<h2 style='font-family:sans-serif;color:green'>✅ Done! Check your terminal for the REFRESH_TOKEN.</h2>");
   } else {

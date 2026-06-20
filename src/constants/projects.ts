@@ -25,7 +25,7 @@ export const projects: Project[] = [
     title: "QuizClash",
     description: "AI-powered real-time multiplayer quiz platform",
     longDescription:
-      "QuizClash generates quiz questions from any source — PDFs, YouTube videos, or text — using T5 transformers with MMR-based distractor synthesis, Whisper for audio transcription, and Tesseract OCR for scanned PDFs. WebSocket synchronization supports 40+ concurrent players on a Node.js/Express backend with a React frontend. Achieved 77% relevance precision in question quality testing.",
+      "QuizClash turns PDFs and YouTube videos into Kahoot-style games via a 5-stage ML pipeline — OCR and Whisper for content ingestion, T5 for question generation, RoBERTa for answer extraction, and Sense2Vec for distractor selection. A WebSocket engine powers synchronized timers, answer locking, and score reveals for 40+ concurrent players across public/private rooms, on a Node.js/Express backend with a React frontend. Achieved 77% relevance precision in question quality testing.",
     tags: [
       { name: "T5 Transformers", color: "#ff6b35" },
       { name: "Node.js", color: "#8cc84b" },
