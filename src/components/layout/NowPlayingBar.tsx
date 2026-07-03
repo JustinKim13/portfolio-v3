@@ -1,31 +1,40 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import { useNowPlaying } from "@/hooks/useNowPlaying";
 import { EqualizerBars } from "@/components/ui/EqualizerBars";
 import { formatMs } from "@/lib/utils";
-import {
-  Play,
-  Pause,
-  SkipBack,
-  SkipForward,
-  Volume2,
-  ExternalLink,
-} from "lucide-react";
+import { Play, Pause, ExternalLink } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 export function NowPlayingBar() {
   const { data, isLoading } = useNowPlaying();
 
+  // Tick progress locally between API polls so the bar actually moves
+  const [progress, setProgress] = useState<number | null>(null);
+
+  useEffect(() => {
+    setProgress(data.progress ?? null);
+    if (!data.isPlaying || !data.duration) return;
+
+    const interval = setInterval(() => {
+      setProgress((p) =>
+        p === null ? p : Math.min(p + 1000, data.duration ?? p)
+      );
+    }, 1000);
+    return () => clearInterval(interval);
+  }, [data.progress, data.isPlaying, data.duration]);
+
   const progressPercent =
-    data.isPlaying && data.progress && data.duration
-      ? (data.progress / data.duration) * 100
+    data.isPlaying && progress && data.duration
+      ? (progress / data.duration) * 100
       : 0;
 
   return (
     <footer
       className={cn(
-        "fixed bottom-0 left-0 right-0 z-50",
+        "fixed bottom-[52px] md:bottom-0 left-0 right-0 z-50",
         "h-player bg-sp-black border-t border-sp-card",
         "flex items-center px-4 gap-4"
       )}
@@ -81,55 +90,63 @@ export function NowPlayingBar() {
         )}
       </div>
 
-      {/* Mobile: play button only */}
-      <button
-        className={cn(
-          "flex md:hidden w-8 h-8 rounded-full items-center justify-center flex-shrink-0",
-          "bg-sp-white text-sp-black"
-        )}
-        aria-label={data.isPlaying ? "Pause" : "Play"}
-      >
-        {data.isPlaying ? (
-          <Pause size={14} fill="currentColor" />
-        ) : (
-          <Play size={14} fill="currentColor" className="ml-0.5" />
-        )}
-      </button>
+      {/* Mobile: open-in-Spotify button (the only control that can be honest) */}
+      {data.spotifyUrl && (
+        <a
+          href={data.spotifyUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Open this track in Spotify"
+          className={cn(
+            "flex md:hidden w-8 h-8 rounded-full items-center justify-center flex-shrink-0",
+            "bg-sp-white text-sp-black"
+          )}
+        >
+          {data.isPlaying ? (
+            <Pause size={14} fill="currentColor" />
+          ) : (
+            <Play size={14} fill="currentColor" className="ml-0.5" />
+          )}
+        </a>
+      )}
 
-      {/* Desktop center: Controls + progress */}
+      {/* Desktop center: play (links to the real track) + live progress */}
       <div className="hidden md:flex flex-col items-center gap-1 flex-1 min-w-0">
-        <div className="flex items-center gap-4">
-          <button
-            className="text-sp-subdued hover:text-sp-white transition-colors"
-            aria-label="Previous track"
-          >
-            <SkipBack size={16} />
-          </button>
-          <button
+        {data.spotifyUrl ? (
+          <a
+            href={data.spotifyUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Open this track in Spotify"
+            title="Open in Spotify"
             className={cn(
               "w-8 h-8 rounded-full flex items-center justify-center",
-              "bg-sp-white hover:scale-105 transition-transform text-sp-black"
+              "bg-sp-white hover:bg-sp-green hover:scale-105",
+              "transition-all text-sp-black"
             )}
-            aria-label={data.isPlaying ? "Pause" : "Play"}
+            data-cursor="hover"
           >
             {data.isPlaying ? (
               <Pause size={14} fill="currentColor" />
             ) : (
               <Play size={14} fill="currentColor" className="ml-0.5" />
             )}
-          </button>
-          <button
-            className="text-sp-subdued hover:text-sp-white transition-colors"
-            aria-label="Next track"
+          </a>
+        ) : (
+          <div
+            className={cn(
+              "w-8 h-8 rounded-full flex items-center justify-center",
+              "bg-sp-card text-sp-subdued"
+            )}
           >
-            <SkipForward size={16} />
-          </button>
-        </div>
+            <Play size={14} fill="currentColor" className="ml-0.5" />
+          </div>
+        )}
 
-        {/* Progress bar */}
+        {/* Progress bar — real playback position, ticking every second */}
         <div className="flex items-center gap-2 w-full max-w-[400px]">
           <span className="text-sp-subdued text-[10px] w-8 text-right tabular-nums">
-            {data.progress ? formatMs(data.progress) : "0:00"}
+            {data.isPlaying && progress ? formatMs(progress) : "0:00"}
           </span>
           <div className="progress-bar flex-1 group">
             <div
@@ -143,12 +160,11 @@ export function NowPlayingBar() {
         </div>
       </div>
 
-      {/* Desktop right: Volume + external link */}
+      {/* Desktop right: what this bar actually is */}
       <div className="hidden md:flex items-center gap-3 w-[240px] justify-end">
-        <Volume2 size={16} className="text-sp-subdued" />
-        <div className="progress-bar w-24">
-          <div className="progress-bar-fill" style={{ width: "70%" }} />
-        </div>
+        <span className="text-sp-subdued/80 text-[10px] uppercase tracking-widest hidden lg:block">
+          {data.isPlaying ? "Live via Spotify API" : "Spotify API"}
+        </span>
         {data.spotifyUrl && (
           <a
             href={data.spotifyUrl}

@@ -99,6 +99,22 @@ body {
   to   { transform: rotate(360deg); }
 }
 
+/* Hide the native cursor only for precise pointers — CustomCursor replaces it.
+   Touch and coarse-pointer devices keep native behavior. */
+@media (pointer: fine) {
+  body,
+  body * {
+    cursor: none !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .eq-bar,
+  .album-art-spinning {
+    animation: none !important;
+  }
+}
+
 /* Custom cursor */
 .custom-cursor {
   position: fixed;

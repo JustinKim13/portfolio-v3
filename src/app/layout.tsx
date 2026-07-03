@@ -51,8 +51,9 @@ export default function RootLayout({
         className={cn(
           fontSans.variable,
           fontMono.variable,
-          "font-sans antialiased bg-sp-black text-sp-white",
-          "cursor-none" // hide default cursor — CustomCursor replaces it
+          "font-sans antialiased bg-sp-black text-sp-white"
+          // cursor hiding lives in globals.css behind a (pointer: fine) media
+          // query so touch/stylus users keep native behavior
         )}
       >
         <LenisProvider>

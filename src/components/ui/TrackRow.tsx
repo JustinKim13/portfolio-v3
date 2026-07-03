@@ -6,7 +6,7 @@ import Image from "next/image";
 import { Github, ExternalLink, Play, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { Project } from "@/types";
-import { scaleIn, staggerContainer, fadeInUp } from "@/lib/motion";
+import { staggerContainer, fadeInUp } from "@/lib/motion";
 
 interface TrackRowProps {
   project: Project;
@@ -22,9 +22,9 @@ export function TrackRow({ project, index }: TrackRowProps) {
       <motion.div
         layoutId={`track-${project.id}`}
         className={cn(
-          "grid items-center gap-4 px-4 py-2 rounded-md cursor-pointer",
+          "grid items-center gap-4 px-4 py-3 rounded-md cursor-pointer",
           "hover:bg-sp-card/50 transition-colors group",
-          "grid-cols-[32px_1fr_72px_48px]"
+          "grid-cols-[24px_1fr_76px] sm:grid-cols-[24px_1fr_64px_76px]"
         )}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
@@ -32,7 +32,7 @@ export function TrackRow({ project, index }: TrackRowProps) {
         data-cursor="hover"
       >
         {/* Track number / play icon */}
-        <div className="w-8 text-center">
+        <div className="w-6 text-center">
           <AnimatePresence mode="wait">
             {isHovered ? (
               <motion.div
@@ -42,10 +42,7 @@ export function TrackRow({ project, index }: TrackRowProps) {
                 exit={{ opacity: 0, scale: 0.5 }}
                 transition={{ duration: 0.15 }}
               >
-                <Play
-                  size={14}
-                  className="text-sp-white fill-sp-white"
-                />
+                <Play size={14} className="text-sp-white fill-sp-white" />
               </motion.div>
             ) : (
               <motion.span
@@ -61,45 +58,54 @@ export function TrackRow({ project, index }: TrackRowProps) {
           </AnimatePresence>
         </div>
 
-        {/* Title + tags */}
-        <div className="flex items-center gap-3 min-w-0">
+        {/* Art + title + description + stack */}
+        <div className="flex items-center gap-4 min-w-0">
           {project.image && (
-            <div className="relative w-10 h-10 flex-shrink-0 rounded overflow-hidden bg-sp-card">
+            <div className="relative w-16 h-16 flex-shrink-0 rounded overflow-hidden bg-sp-card shadow-md">
               <Image
                 src={project.image}
                 alt={project.title}
                 fill
-                sizes="40px"
+                sizes="64px"
                 className="object-cover"
-                onError={() => {}} // silently fail for missing images
               />
             </div>
           )}
           <div className="min-w-0">
-            <p className="text-sp-white text-sm font-medium truncate group-hover:text-sp-green transition-colors">
+            <p className="text-sp-white text-[15px] font-semibold truncate group-hover:text-sp-green transition-colors">
               {project.title}
             </p>
-            <p className="text-sp-subdued text-xs truncate">
+            <p className="text-sp-text text-xs truncate mt-0.5">
+              {project.description}
+            </p>
+            <p className="text-sp-subdued/80 text-[11px] font-mono truncate mt-1">
               {project.tags.map((t) => t.name).join(" · ")}
             </p>
           </div>
         </div>
 
         {/* Duration */}
-        <span className="text-sp-subdued text-sm font-mono text-right">
+        <span className="hidden sm:block text-sp-subdued text-sm font-mono text-right">
           {project.duration}
         </span>
 
-        {/* External links */}
-        <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity w-12">
+        {/* Links — always visible; a recruiter should never have to hover */}
+        <div
+          className="flex items-center gap-1.5 justify-end"
+          onClick={(e) => e.stopPropagation()}
+        >
           {project.github && (
             <a
               href={project.github}
               target="_blank"
               rel="noopener noreferrer"
-              onClick={(e) => e.stopPropagation()}
-              className="text-sp-subdued hover:text-sp-white transition-colors"
-              aria-label="GitHub"
+              aria-label={`${project.title} on GitHub`}
+              className={cn(
+                "w-8 h-8 rounded-full flex items-center justify-center",
+                "bg-sp-card text-sp-subdued",
+                "hover:bg-sp-card-hover hover:text-sp-white transition-colors"
+              )}
+              data-cursor="hover"
             >
               <Github size={14} />
             </a>
@@ -109,9 +115,13 @@ export function TrackRow({ project, index }: TrackRowProps) {
               href={project.live}
               target="_blank"
               rel="noopener noreferrer"
-              onClick={(e) => e.stopPropagation()}
-              className="text-sp-subdued hover:text-sp-white transition-colors"
-              aria-label="Live demo"
+              aria-label={`${project.title} live demo`}
+              className={cn(
+                "w-8 h-8 rounded-full flex items-center justify-center",
+                "bg-sp-card text-sp-subdued",
+                "hover:bg-sp-green hover:text-black transition-colors"
+              )}
+              data-cursor="hover"
             >
               <ExternalLink size={14} />
             </a>
@@ -212,10 +222,7 @@ export function TrackRow({ project, index }: TrackRowProps) {
                   {project.longDescription}
                 </motion.p>
 
-                <motion.div
-                  className="flex gap-3"
-                  variants={fadeInUp}
-                >
+                <motion.div className="flex gap-3" variants={fadeInUp}>
                   {project.github && (
                     <a
                       href={project.github}

@@ -1,12 +1,16 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Image from "next/image";
 import { TrackRow } from "@/components/ui/TrackRow";
 import { projects } from "@/constants";
 import { staggerContainer, fadeInUp } from "@/lib/motion";
 import { Clock } from "lucide-react";
 
 export function Projects() {
+  const liveCount = projects.filter((p) => p.live).length;
+  const collage = projects.filter((p) => p.image).slice(0, 4);
+
   return (
     <section id="projects" className="px-6 py-20 md:px-12 md:py-32">
       {/* Header — Playlist style */}
@@ -17,15 +21,22 @@ export function Projects() {
         whileInView="show"
         viewport={{ once: true }}
       >
-        {/* Cover art */}
+        {/* Cover art — 2x2 collage of real project screenshots */}
         <motion.div
-          className="w-40 h-40 rounded-lg flex-shrink-0 shadow-2xl hidden md:flex items-center justify-center"
-          style={{
-            background: "linear-gradient(135deg, #1db954 0%, #00cec9 100%)",
-          }}
+          className="w-40 h-40 rounded-lg flex-shrink-0 shadow-2xl hidden md:grid grid-cols-2 grid-rows-2 overflow-hidden"
           variants={fadeInUp}
         >
-          <span className="text-6xl font-black text-black/30">P</span>
+          {collage.map((project) => (
+            <div key={project.id} className="relative">
+              <Image
+                src={project.image}
+                alt=""
+                fill
+                sizes="80px"
+                className="object-cover"
+              />
+            </div>
+          ))}
         </motion.div>
 
         {/* Playlist info */}
@@ -37,21 +48,24 @@ export function Projects() {
             Top Projects
           </h2>
           <p className="text-sp-subdued text-sm">
-            Justin Kim • {projects.length} projects
+            Justin Kim • {projects.length} projects • {liveCount} live to try
+            • tap a track for the full story
           </p>
         </motion.div>
       </motion.div>
 
       {/* Table header */}
-      <div className="grid grid-cols-[32px_1fr_72px_48px] gap-4 px-4 pb-2 mb-2 border-b border-sp-card">
+      <div className="grid grid-cols-[24px_1fr_76px] sm:grid-cols-[24px_1fr_64px_76px] gap-4 px-4 pb-2 mb-2 border-b border-sp-card">
         <span className="text-sp-subdued text-xs text-center">#</span>
         <span className="text-sp-subdued text-xs uppercase tracking-widest">
           Title
         </span>
-        <span className="text-sp-subdued text-xs flex items-center gap-1 justify-end">
+        <span className="hidden sm:flex text-sp-subdued text-xs items-center gap-1 justify-end">
           <Clock size={12} /> Dur.
         </span>
-        <span />
+        <span className="text-sp-subdued text-xs uppercase tracking-widest text-right">
+          Links
+        </span>
       </div>
 
       {/* Track list */}

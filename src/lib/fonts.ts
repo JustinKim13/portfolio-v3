@@ -1,6 +1,8 @@
-import { Inter, JetBrains_Mono } from "next/font/google";
+import { Figtree, JetBrains_Mono } from "next/font/google";
 
-export const fontSans = Inter({
+// Figtree is the closest open font to Spotify's proprietary Circular —
+// geometric and friendly, so the shell reads as "Spotify" without the license.
+export const fontSans = Figtree({
   subsets: ["latin"],
   variable: "--font-sans",
   display: "swap",

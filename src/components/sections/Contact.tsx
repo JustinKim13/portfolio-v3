@@ -3,9 +3,7 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { staggerContainer, fadeInUp } from "@/lib/motion";
 import { cn } from "@/lib/utils";
-import { Mail, Github, Linkedin, Music2 } from "lucide-react";
-import { useNowPlaying } from "@/hooks/useNowPlaying";
-import { EqualizerBars } from "@/components/ui/EqualizerBars";
+import { Mail, Github, Linkedin } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
 
 const socialLinks = [
@@ -32,25 +30,9 @@ const socialLinks = [
   },
 ];
 
-const followLinks = [
-  {
-    label: "LinkedIn",
-    href: "https://linkedin.com/in/justin-kim13",
-    icon: Linkedin,
-    color: "#0077b5",
-    description: "Connect professionally",
-  },
-  {
-    label: "Email",
-    href: "mailto:jtkimmn13@gmail.com",
-    icon: Mail,
-    color: "#1db954",
-    description: "jtkimmn13@gmail.com",
-  },
-];
+const followLinks = socialLinks.filter((link) => link.label !== "GitHub");
 
 export function Contact() {
-  const { data } = useNowPlaying();
   const [followOpen, setFollowOpen] = useState(false);
   const followRef = useRef<HTMLDivElement>(null);
 
@@ -67,7 +49,7 @@ export function Contact() {
   return (
     <section
       id="contact"
-      className="px-6 py-20 md:px-12 md:py-32 min-h-[60vh] flex flex-col justify-center"
+      className="px-6 pt-20 pb-8 md:px-12 md:pt-32 md:pb-10 min-h-[60vh] flex flex-col justify-center"
       style={{
         background:
           "radial-gradient(ellipse at 80% 80%, rgba(29, 185, 84, 0.06) 0%, transparent 60%)",
@@ -215,22 +197,31 @@ export function Contact() {
           ))}
         </motion.div>
 
-        {/* Now playing mini widget */}
-        {data.isPlaying && data.title && (
-          <motion.div
-            variants={fadeInUp}
-            className="flex items-center gap-3 p-3 rounded-xl bg-sp-card border border-sp-card-hover"
+        {/* Liner notes — the site is a project too */}
+        <motion.div
+          variants={fadeInUp}
+          className="rounded-xl border border-sp-card p-5"
+        >
+          <p className="text-sp-subdued text-[11px] font-bold uppercase tracking-[0.2em] mb-2">
+            Liner Notes
+          </p>
+          <p className="text-sp-text text-sm leading-relaxed">
+            This site is a project too — Next.js App Router, TypeScript,
+            Tailwind, and Framer Motion, with a live Spotify Web API
+            integration that caches access tokens in Redis and rotates its own
+            refresh tokens so the player never goes stale.
+          </p>
+          <a
+            href="https://github.com/JustinKim13/portfolio-v3"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 mt-3 text-sp-green hover:text-sp-green-hover text-sm font-medium transition-colors"
+            data-cursor="hover"
           >
-            <Music2 size={16} className="text-sp-green flex-shrink-0" />
-            <div className="flex-1 min-w-0">
-              <p className="text-sp-subdued text-xs">Now listening to</p>
-              <p className="text-sp-white text-sm font-medium truncate">
-                {data.title} — {data.artist}
-              </p>
-            </div>
-            <EqualizerBars isPlaying={data.isPlaying} />
-          </motion.div>
-        )}
+            <Github size={14} />
+            Read the source
+          </a>
+        </motion.div>
       </motion.div>
     </section>
   );

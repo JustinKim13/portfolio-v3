@@ -154,13 +154,16 @@ export async function getNowPlaying(): Promise<NowPlayingData> {
     };
 
     // write to Redis so we always have a fallback, regardless of how long ago we last played
-    await redis.set(LAST_TRACK_KEY, {
-      title: track.title,
-      artist: track.artist,
-      albumArt: track.albumArt,
-      spotifyUrl: track.spotifyUrl,
-      duration: track.duration,
-    });
+    // (fire-and-forget so the response isn't delayed by the write)
+    redis
+      .set(LAST_TRACK_KEY, {
+        title: track.title,
+        artist: track.artist,
+        albumArt: track.albumArt,
+        spotifyUrl: track.spotifyUrl,
+        duration: track.duration,
+      })
+      .catch(() => {});
 
     return track;
   } catch {

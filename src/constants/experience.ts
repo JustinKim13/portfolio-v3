@@ -20,7 +20,7 @@ export const wrappedYears: WrappedYear[] = [
   {
     year: 2025,
     gradient: "linear-gradient(135deg, #00b894 0%, #00cec9 100%)",
-    headline: "Full-Stack SWE Intern @ Entegral | RAG Engineer @ Denari | Founder @ MadLease",
+    headline: "Full-Stack SWE Intern @ Entegral | RAG Engineer @ Denari | Co-Founder @ MadLease",
     stat: "You scaled production systems",
     company: "Entegral / Denari / MadLease",
     role: "Full Stack Software Engineer Intern",
@@ -30,7 +30,7 @@ export const wrappedYears: WrappedYear[] = [
       "Led development of a production-ready crash photo capture and insurance intake platform at Entegral, shipping a company-wide reusable OCR module that extracted VIN, license plate, and odometer fields with 90%+ accuracy",
       "Eliminated polling for estimate negotiation data by building a Pub/Sub database listener that propagated updates across multiple internal services in real time",
       "Built a citation-grounded RAG pipeline for Denari that outperformed GPT-4o-mini by 5% across 2,200+ CPA benchmark questions using OpenAI embeddings, TimescaleDB/pgvector, and AWS S3",
-      "Founded and deployed MadLease — a UW–Madison sublease marketplace — and designed a ranking engine matching listings to users across 7 filter dimensions including price, location, amenities, and date availability",
+      "Co-founded and deployed MadLease — a UW–Madison sublease marketplace — and designed a ranking engine matching listings to users across 7 filter dimensions including price, location, amenities, and date availability",
       "Accepted Capital One's TIP Software Engineer offer for Summer 2026",
     ],
   },

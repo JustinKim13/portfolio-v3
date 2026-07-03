@@ -5,11 +5,19 @@ import { wrappedYears } from "@/constants";
 import type { WrappedYear } from "@/types";
 import { staggerContainer, fadeInUp } from "@/lib/motion";
 
-function WrappedCard({ data, index }: { data: WrappedYear; index: number }) {
+const NOISE_TEXTURE =
+  "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E\")";
+
+interface WrappedCardProps {
+  data: WrappedYear;
+  index: number;
+}
+
+function WrappedCard({ data, index }: WrappedCardProps) {
   return (
     <motion.div
-      className="relative rounded-2xl overflow-hidden flex flex-col p-8 cursor-default"
-      style={{ background: data.gradient, minHeight: "580px" }}
+      className="relative rounded-2xl overflow-hidden flex flex-col cursor-default p-6 md:p-8"
+      style={{ background: data.gradient }}
       initial={{ opacity: 0, y: 48 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-60px" }}
@@ -18,14 +26,13 @@ function WrappedCard({ data, index }: { data: WrappedYear; index: number }) {
         ease: [0.22, 1, 0.36, 1],
         delay: index * 0.12,
       }}
-      whileHover={{ scale: 1.02, transition: { duration: 0.2 } }}
+      whileHover={{ scale: 1.015, transition: { duration: 0.2 } }}
     >
       {/* Noise texture overlay */}
       <div
         className="absolute inset-0 opacity-[0.06] pointer-events-none"
         style={{
-          backgroundImage:
-            "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E\")",
+          backgroundImage: NOISE_TEXTURE,
           backgroundRepeat: "repeat",
           backgroundSize: "128px 128px",
         }}
@@ -34,38 +41,38 @@ function WrappedCard({ data, index }: { data: WrappedYear; index: number }) {
       <div className="relative z-10 flex flex-col h-full">
         {/* Label + Year */}
         <div className="mb-4">
-          <p className="text-white/40 text-xs font-bold uppercase tracking-[0.4em] mb-1">
+          <p className="text-white/80 text-xs font-bold uppercase tracking-[0.4em] mb-1">
             Spotify Wrapped
           </p>
-          <h2
+          <h3
             className="font-black text-white leading-none"
-            style={{ fontSize: "clamp(72px, 9vw, 108px)" }}
+            style={{ fontSize: "clamp(56px, 6vw, 80px)" }}
           >
             {data.year}
-          </h2>
+          </h3>
         </div>
 
         {/* Role */}
         <div className="mb-6">
-          <p className="text-white/50 text-xs uppercase tracking-widest mb-1">
+          <p className="text-white/80 text-xs uppercase tracking-widest mb-1">
             Your #1 Role
           </p>
-          <p className="text-white font-bold text-xl leading-snug">
+          <p className="text-white font-bold leading-snug text-lg md:text-xl">
             {data.headline}
           </p>
         </div>
 
-        {/* Tracks — push to fill remaining space */}
-        <ul className="space-y-2 flex-1">
+        {/* Tracks */}
+        <ul className="flex-1 space-y-2 flex flex-col">
           {data.points.map((point, i) => (
             <li
               key={i}
-              className="flex items-start gap-3 bg-white/10 backdrop-blur-sm rounded-xl px-4 py-3"
+              className="flex items-start gap-3 bg-black/25 backdrop-blur-sm rounded-xl px-4 py-3"
             >
-              <span className="text-white/40 text-xs font-mono w-4 flex-shrink-0 pt-0.5">
+              <span className="text-white/70 text-xs font-mono w-4 flex-shrink-0 pt-0.5">
                 {i + 1}
               </span>
-              <span className="text-white text-sm leading-snug font-medium">
+              <span className="text-white text-sm leading-relaxed font-medium">
                 {point}
               </span>
             </li>
@@ -105,9 +112,12 @@ export function Experience() {
           >
             Year in Review
           </motion.h2>
+          <motion.p className="text-sp-subdued mt-2" variants={fadeInUp}>
+            Four years of shipping — most recent on top
+          </motion.p>
         </motion.div>
 
-        {/* Card grid */}
+        {/* Card grid: uniform 2-up, most recent year first */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {wrappedYears.map((yearData, i) => (
             <WrappedCard key={yearData.year} data={yearData} index={i} />

@@ -1,17 +1,7 @@
 "use client";
 
-import { useNowPlaying } from "@/hooks/useNowPlaying";
-import { EqualizerBars } from "@/components/ui/EqualizerBars";
 import { cn } from "@/lib/utils";
-import {
-  Home,
-  Briefcase,
-  Code2,
-  Cpu,
-  Mail,
-  Music2,
-  Clock,
-} from "lucide-react";
+import { Home, Briefcase, Code2, Cpu, Mail } from "lucide-react";
 import { useEffect, useState } from "react";
 
 const navItems = [
@@ -23,7 +13,6 @@ const navItems = [
 ];
 
 export function Sidebar() {
-  const { data } = useNowPlaying();
   const [activeSection, setActiveSection] = useState("hero");
 
   useEffect(() => {
@@ -153,32 +142,6 @@ export function Sidebar() {
         </div>
       </nav>
 
-      {/* Mini now playing at bottom of sidebar */}
-      {data.title && (
-        <div className="px-3 py-3 border-t border-sp-card">
-          {data.isRecentlyPlayed && (
-            <p className="text-sp-subdued text-[9px] uppercase tracking-widest mb-1 px-1">
-              Last played
-            </p>
-          )}
-          <div className="flex items-center gap-2">
-            {data.isRecentlyPlayed ? (
-              <Clock size={14} className="text-sp-subdued flex-shrink-0" />
-            ) : (
-              <Music2 size={14} className="text-sp-green flex-shrink-0" />
-            )}
-            <div className="flex-1 min-w-0">
-              <p className="text-sp-white text-xs font-medium truncate">
-                {data.title}
-              </p>
-              <p className="text-sp-subdued text-[10px] truncate">
-                {data.artist}
-              </p>
-            </div>
-            {!data.isRecentlyPlayed && <EqualizerBars isPlaying={data.isPlaying} />}
-          </div>
-        </div>
-      )}
     </aside>
   );
 }
