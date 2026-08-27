@@ -46,7 +46,9 @@ if (!CLIENT_ID || !CLIENT_SECRET) {
 }
 
 const PORT = 8888;
-const REDIRECT_URI = `http://localhost:${PORT}/callback`;
+// Spotify no longer accepts bare "localhost" in redirect URIs (DNS-rebinding
+// protection) — only the literal loopback IP is allowed.
+const REDIRECT_URI = `http://127.0.0.1:${PORT}/callback`;
 const SCOPE = "user-read-currently-playing user-top-read";
 
 const params = new URLSearchParams({
