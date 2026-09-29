@@ -21,22 +21,10 @@ const pillVariants = {
   }),
 };
 
-const cardVariants = {
-  hidden: { opacity: 0, y: 24 },
-  show: (i: number) => ({
-    opacity: 1,
-    y: 0,
-    transition: {
-      type: "spring" as const,
-      stiffness: 260,
-      damping: 24,
-      delay: i * 0.1,
-    },
-  }),
-};
-
 export function Skills() {
-  const [activeGenre, setActiveGenre] = useState<string | null>(null);
+  const [activeGenre, setActiveGenre] = useState<string | null>(
+    skillGenres[0]?.name ?? null
+  );
 
   const activeData = skillGenres.find((g) => g.name === activeGenre);
 
@@ -62,7 +50,7 @@ export function Skills() {
           Your Top Genres
         </motion.h2>
         <motion.p className="text-sp-subdued mt-2" variants={fadeInUp}>
-          Click a genre to see the full breakdown
+          Click a genre to switch the breakdown below
         </motion.p>
       </motion.div>
 
@@ -80,9 +68,8 @@ export function Skills() {
             variants={pillVariants}
             whileHover={{ scale: 1.08 }}
             whileTap={{ scale: 0.94 }}
-            onClick={() =>
-              setActiveGenre(activeGenre === genre.name ? null : genre.name)
-            }
+            onClick={() => setActiveGenre(genre.name)}
+            aria-pressed={activeGenre === genre.name}
             className={cn(
               "px-5 py-2.5 rounded-full text-sm font-semibold",
               "border transition-colors duration-200"
@@ -137,56 +124,6 @@ export function Skills() {
                 </motion.span>
               ))}
             </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      {/* All skills grid */}
-      <AnimatePresence>
-        {!activeGenre && (
-          <motion.div
-            initial="hidden"
-            animate="show"
-            exit={{ opacity: 0 }}
-            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4"
-          >
-            {skillGenres.map((genre, i) => (
-              <motion.div
-                key={genre.name}
-                custom={i}
-                variants={cardVariants}
-                whileHover={{
-                  y: -6,
-                  boxShadow: `0 8px 32px ${genre.color}33`,
-                  borderColor: genre.color,
-                }}
-                onClick={() => setActiveGenre(genre.name)}
-                className="bg-sp-card rounded-xl p-4 cursor-pointer border border-transparent transition-colors"
-                data-cursor="hover"
-              >
-                <div
-                  className="w-10 h-10 rounded-full mb-3 flex items-center justify-center text-sm font-bold"
-                  style={{
-                    backgroundColor: genre.bgColor,
-                    color: genre.color,
-                  }}
-                >
-                  {genre.skills.length}
-                </div>
-                <h4
-                  className="font-semibold text-sm mb-1"
-                  style={{ color: genre.color }}
-                >
-                  {genre.name}
-                </h4>
-                <p className="text-sp-subdued text-xs">
-                  {genre.skills.slice(0, 3).join(", ")}
-                  {genre.skills.length > 3
-                    ? ` +${genre.skills.length - 3} more`
-                    : ""}
-                </p>
-              </motion.div>
-            ))}
           </motion.div>
         )}
       </AnimatePresence>

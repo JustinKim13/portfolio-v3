@@ -34,12 +34,6 @@ const featuredCards = [
   },
 ];
 
-const stats = [
-  { label: "Projects Shipped", value: "6" },
-  { label: "Internships", value: "3" },
-  { label: "GPA", value: "3.8" },
-];
-
 export function Hero() {
   const greeting = getGreeting();
 
@@ -77,32 +71,20 @@ export function Hero() {
           {greeting}, I&apos;m Justin
         </motion.h1>
         <motion.p className="text-sp-subdued mt-1.5" variants={fadeInUp}>
-          CS / DS @ UW-Madison | Expected Graduation: Dec 2026
+          CS / DS @ UW-Madison | Incoming MSCS @ Georgia Tech
         </motion.p>
       </motion.div>
 
-      {/* Quick stats bar */}
-      <motion.div
-        className="flex gap-8 mb-5 text-sm"
-        variants={staggerContainer(0.08, 0.15)}
+      {/* Quick stats — same subdued metadata-line idiom used on the
+          Projects header, instead of a generic number-over-label grid */}
+      <motion.p
+        className="text-sp-subdued text-sm mb-5"
+        variants={fadeInUp}
         initial="hidden"
         animate="show"
       >
-        {stats.map((stat) => (
-          <motion.div
-            key={stat.label}
-            className="flex flex-col"
-            variants={fadeInUp}
-          >
-            <span className="text-sp-white font-bold text-xl">
-              {stat.value}
-            </span>
-            <span className="text-sp-subdued text-xs whitespace-nowrap">
-              {stat.label}
-            </span>
-          </motion.div>
-        ))}
-      </motion.div>
+        6 projects shipped • 3 internships • 3.76 GPA
+      </motion.p>
 
       <div className="grid lg:grid-cols-[1fr_300px] xl:grid-cols-[1fr_340px] gap-8 xl:gap-12 items-start">
         {/* Left column: the recruiter path */}
@@ -209,6 +191,17 @@ export function Hero() {
                 technical cohort, where I explore alignment and long-term
                 safety in advanced AI systems.
               </p>
+              <p className="text-sp-text text-sm leading-normal mt-2.5">
+                I&apos;m starting my{" "}
+                <span className="text-sp-green font-medium">
+                  M.S. in Computer Science
+                </span>{" "}
+                (Machine Learning specialization) at{" "}
+                <span className="text-sp-green font-medium">
+                  Georgia Tech
+                </span>{" "}
+                in Spring 2027, part-time alongside full-time work.
+              </p>
               <div className="mt-3.5 flex gap-3">
                 <a
                   href="#contact"
@@ -241,8 +234,10 @@ export function Hero() {
           </motion.div>
         </div>
 
-        {/* Right column: live Spotify showcase (the site's party trick) */}
-        <div className="hidden lg:block lg:-mt-[70px]">
+        {/* Live Spotify showcase (the site's party trick) — stacks below the
+            intro on mobile/tablet instead of disappearing, sits in its own
+            column on desktop */}
+        <div className="max-w-sm lg:max-w-none lg:-mt-[70px]">
           <NowPlayingCard />
         </div>
       </div>

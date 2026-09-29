@@ -55,7 +55,7 @@ export function Projects() {
       </motion.div>
 
       {/* Table header */}
-      <div className="grid grid-cols-[24px_1fr_76px] sm:grid-cols-[24px_1fr_64px_76px] gap-4 px-4 pb-2 mb-2 border-b border-sp-card">
+      <div className="grid grid-cols-[24px_1fr_100px] sm:grid-cols-[24px_1fr_64px_100px] gap-4 px-4 pb-2 mb-2 border-b border-sp-card">
         <span className="text-sp-subdued text-xs text-center">#</span>
         <span className="text-sp-subdued text-xs uppercase tracking-widest">
           Title

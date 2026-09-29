@@ -56,6 +56,12 @@ export default function RootLayout({
           // query so touch/stylus users keep native behavior
         )}
       >
+        <a
+          href="#main-scroll"
+          className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[9999] focus:rounded-full focus:bg-sp-green focus:px-4 focus:py-2 focus:text-sm focus:font-bold focus:text-black"
+        >
+          Skip to content
+        </a>
         <LenisProvider>
           <CustomCursor />
           <SpotifyShell>{children}</SpotifyShell>

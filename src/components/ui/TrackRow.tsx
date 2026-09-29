@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import { Github, ExternalLink, Play, X } from "lucide-react";
@@ -13,22 +13,78 @@ interface TrackRowProps {
   index: number;
 }
 
+const FOCUSABLE_SELECTOR =
+  'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])';
+
 export function TrackRow({ project, index }: TrackRowProps) {
   const [isExpanded, setIsExpanded] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
+  const rowRef = useRef<HTMLDivElement>(null);
+  const modalRef = useRef<HTMLDivElement>(null);
+  const titleId = `track-title-${project.id}`;
+
+  // Modal a11y: move focus in on open, trap Tab inside, close on Escape,
+  // and hand focus back to the row that opened it.
+  useEffect(() => {
+    if (!isExpanded) return;
+
+    const trigger = rowRef.current;
+    modalRef.current?.focus();
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setIsExpanded(false);
+        return;
+      }
+      if (e.key !== "Tab" || !modalRef.current) return;
+
+      const focusable = Array.from(
+        modalRef.current.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTOR)
+      );
+      if (focusable.length === 0) return;
+
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+      trigger?.focus();
+    };
+  }, [isExpanded]);
 
   return (
     <>
       <motion.div
+        ref={rowRef}
         layoutId={`track-${project.id}`}
+        role="button"
+        tabIndex={0}
+        aria-label={`View ${project.title} details`}
         className={cn(
           "grid items-center gap-4 px-4 py-3 rounded-md cursor-pointer",
           "hover:bg-sp-card/50 transition-colors group",
-          "grid-cols-[24px_1fr_76px] sm:grid-cols-[24px_1fr_64px_76px]"
+          "focus:outline-none focus-visible:ring-2 focus-visible:ring-sp-green focus-visible:ring-offset-2 focus-visible:ring-offset-sp-dark",
+          "grid-cols-[24px_1fr_100px] sm:grid-cols-[24px_1fr_64px_100px]"
         )}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
         onClick={() => setIsExpanded(true)}
+        onKeyDown={(e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            setIsExpanded(true);
+          }
+        }}
         data-cursor="hover"
       >
         {/* Track number / play icon */}
@@ -101,9 +157,10 @@ export function TrackRow({ project, index }: TrackRowProps) {
               rel="noopener noreferrer"
               aria-label={`${project.title} on GitHub`}
               className={cn(
-                "w-8 h-8 rounded-full flex items-center justify-center",
+                "w-11 h-11 rounded-full flex items-center justify-center",
                 "bg-sp-card text-sp-subdued",
-                "hover:bg-sp-card-hover hover:text-sp-white transition-colors"
+                "hover:bg-sp-card-hover hover:text-sp-white transition-colors",
+                "focus:outline-none focus-visible:ring-2 focus-visible:ring-sp-green"
               )}
               data-cursor="hover"
             >
@@ -117,9 +174,10 @@ export function TrackRow({ project, index }: TrackRowProps) {
               rel="noopener noreferrer"
               aria-label={`${project.title} live demo`}
               className={cn(
-                "w-8 h-8 rounded-full flex items-center justify-center",
+                "w-11 h-11 rounded-full flex items-center justify-center",
                 "bg-sp-card text-sp-subdued",
-                "hover:bg-sp-green hover:text-black transition-colors"
+                "hover:bg-sp-green hover:text-black transition-colors",
+                "focus:outline-none focus-visible:ring-2 focus-visible:ring-sp-green"
               )}
               data-cursor="hover"
             >
@@ -141,11 +199,16 @@ export function TrackRow({ project, index }: TrackRowProps) {
               onClick={() => setIsExpanded(false)}
             />
             <motion.div
+              ref={modalRef}
               layoutId={`track-${project.id}`}
+              role="dialog"
+              aria-modal="true"
+              aria-labelledby={titleId}
+              tabIndex={-1}
               className={cn(
                 "fixed inset-4 md:inset-[10%] z-50 rounded-xl overflow-hidden",
                 "bg-sp-dark border border-sp-card",
-                "flex flex-col"
+                "flex flex-col focus:outline-none"
               )}
             >
               {/* Album cover — always a top banner so landscape screenshots look great */}
@@ -191,7 +254,10 @@ export function TrackRow({ project, index }: TrackRowProps) {
                   <p className="text-sp-subdued text-xs uppercase tracking-widest mb-1">
                     Project
                   </p>
-                  <h3 className="text-sp-white text-3xl font-bold mb-2">
+                  <h3
+                    id={titleId}
+                    className="text-sp-white text-3xl font-bold mb-2"
+                  >
                     {project.title}
                   </h3>
                 </motion.div>

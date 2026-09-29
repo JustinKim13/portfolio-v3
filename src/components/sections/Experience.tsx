@@ -41,7 +41,7 @@ function WrappedCard({ data, index }: WrappedCardProps) {
       <div className="relative z-10 flex flex-col h-full">
         {/* Label + Year */}
         <div className="mb-4">
-          <p className="text-white/80 text-xs font-bold uppercase tracking-[0.4em] mb-1">
+          <p className="text-white/90 text-xs font-bold uppercase tracking-[0.4em] mb-1">
             Spotify Wrapped
           </p>
           <h3
@@ -54,7 +54,7 @@ function WrappedCard({ data, index }: WrappedCardProps) {
 
         {/* Role */}
         <div className="mb-6">
-          <p className="text-white/80 text-xs uppercase tracking-widest mb-1">
+          <p className="text-white/90 text-xs uppercase tracking-widest mb-1">
             Your #1 Role
           </p>
           <p className="text-white font-bold leading-snug text-lg md:text-xl">
@@ -69,7 +69,7 @@ function WrappedCard({ data, index }: WrappedCardProps) {
               key={i}
               className="flex items-start gap-3 bg-black/25 backdrop-blur-sm rounded-xl px-4 py-3"
             >
-              <span className="text-white/70 text-xs font-mono w-4 flex-shrink-0 pt-0.5">
+              <span className="text-white/85 text-xs font-mono w-4 flex-shrink-0 pt-0.5">
                 {i + 1}
               </span>
               <span className="text-white text-sm leading-relaxed font-medium">

@@ -54,23 +54,3 @@ export const staggerContainer = (stagger = 0.1, delay = 0): Variants => ({
   },
 });
 
-export const wrappedSlideIn: Variants = {
-  hidden: { opacity: 0, scale: 0.95, y: 20 },
-  show: {
-    opacity: 1,
-    scale: 1,
-    y: 0,
-    transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] },
-  },
-  exit: {
-    opacity: 0,
-    scale: 1.05,
-    y: -20,
-    transition: { duration: 0.4, ease: "easeIn" },
-  },
-};
-
-export const trackRowHover = {
-  initial: { opacity: 0, scale: 0 },
-  hover: { opacity: 1, scale: 1, transition: { duration: 0.15 } },
-};

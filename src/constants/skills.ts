@@ -53,6 +53,8 @@ export const skillGenres: SkillGenre[] = [
       "Agentic Dev Workflows",
       "Hugging Face",
       "RAG Pipelines",
+      "GraphRAG",
+      "MCP (Model Context Protocol)",
       "Vector Embeddings",
       "Fine-tuning / SFT",
       "LangChain",

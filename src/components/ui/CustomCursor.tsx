@@ -16,14 +16,29 @@ export function CustomCursor() {
 
   useEffect(() => {
     if (isTouchDevice) return;
+
+    // Batch DOM writes into one per animation frame instead of once per
+    // mousemove — mousemove can fire far faster than 60fps on some devices.
+    let rafId: number | null = null;
+    let latestX = 0;
+    let latestY = 0;
+
+    const applyPosition = () => {
+      rafId = null;
+      document.documentElement.style.setProperty("--cx", `${latestX}px`);
+      document.documentElement.style.setProperty("--cy", `${latestY}px`);
+      if (cursorRef.current) {
+        cursorRef.current.style.left = `${latestX}px`;
+        cursorRef.current.style.top = `${latestY}px`;
+      }
+    };
+
     const handleMove = (e: MouseEvent) => {
       if (!isVisible) setIsVisible(true);
-      document.documentElement.style.setProperty("--cx", `${e.clientX}px`);
-      document.documentElement.style.setProperty("--cy", `${e.clientY}px`);
-
-      if (cursorRef.current) {
-        cursorRef.current.style.left = `${e.clientX}px`;
-        cursorRef.current.style.top = `${e.clientY}px`;
+      latestX = e.clientX;
+      latestY = e.clientY;
+      if (rafId === null) {
+        rafId = requestAnimationFrame(applyPosition);
       }
     };
 
@@ -51,6 +66,7 @@ export function CustomCursor() {
       document.removeEventListener("mouseover", handleEnter);
       document.removeEventListener("mouseout", handleLeave);
       document.removeEventListener("mouseleave", handleMouseLeave);
+      if (rafId !== null) cancelAnimationFrame(rafId);
     };
   }, [isVisible]);
 

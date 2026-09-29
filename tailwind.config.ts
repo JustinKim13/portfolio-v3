@@ -29,25 +29,6 @@ const config: Config = {
         sans: ["var(--font-sans)", "system-ui", "sans-serif"],
         mono: ["var(--font-mono)", "monospace"],
       },
-      keyframes: {
-        "eq-bar": {
-          "0%, 100%": { height: "4px" },
-          "50%": { height: "16px" },
-        },
-        spin: {
-          from: { transform: "rotate(0deg)" },
-          to: { transform: "rotate(360deg)" },
-        },
-        "fade-in-up": {
-          "0%": { opacity: "0", transform: "translateY(20px)" },
-          "100%": { opacity: "1", transform: "translateY(0)" },
-        },
-      },
-      animation: {
-        "eq-bar": "eq-bar 0.8s ease-in-out infinite",
-        "spin-slow": "spin 4s linear infinite",
-        "fade-in-up": "fade-in-up 0.5s ease-out forwards",
-      },
     },
   },
   plugins: [],

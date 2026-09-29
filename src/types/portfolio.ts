@@ -6,7 +6,6 @@ export interface WrappedYear {
   company: string;
   role: string;
   points: string[];        // accomplishments as "tracks"
-  icon: string;            // company logo path
   color: string;           // accent color for text
 }
 

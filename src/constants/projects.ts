@@ -6,7 +6,7 @@ export const projects: Project[] = [
     title: "MadLease",
     description: "Live student sublease platform for UW-Madison students",
     longDescription:
-      "MadLease is a production sublease marketplace built for UW-Madison students. Features a Spring Boot backend with AES-256-GCM encrypted real-time messaging, AWS S3 presigned uploads, Firebase Auth with Google OAuth, and a React frontend powered by TanStack Query. Live at madlease.net.",
+      "MadLease is a production sublease marketplace built for UW-Madison students. Features a Spring Boot backend with AES-GCM encrypted in-app messaging, AWS S3 presigned uploads, Firebase Auth with Google OAuth, and a React frontend powered by TanStack Query. Live at madlease.net.",
     tags: [
       { name: "Spring Boot", color: "#6db33f" },
       { name: "PostgreSQL", color: "#336791" },
@@ -25,7 +25,7 @@ export const projects: Project[] = [
     title: "QuizClash",
     description: "AI-powered real-time multiplayer quiz platform",
     longDescription:
-      "QuizClash turns PDFs and YouTube videos into Kahoot-style games via a 5-stage ML pipeline — OCR and Whisper for content ingestion, T5 for question generation, RoBERTa for answer extraction, and Sense2Vec for distractor selection. A WebSocket engine powers synchronized timers, answer locking, and score reveals for 40+ concurrent players across public/private rooms, on a Node.js/Express backend with a React frontend. Achieved 77% relevance precision in question quality testing.",
+      "QuizClash turns PDFs and YouTube videos into Kahoot-style games via a 5-stage ML pipeline — OCR and Whisper for content ingestion, T5 for question generation, RoBERTa for answer extraction, and Sense2Vec for distractor selection. A WebSocket engine powers synchronized timers, answer locking, and score reveals for 40+ concurrent players across public/private rooms, on a Node.js/Express backend with a React frontend. Reached 75% manually evaluated question relevance in testing.",
     tags: [
       { name: "T5 Transformers", color: "#ff6b35" },
       { name: "Node.js", color: "#8cc84b" },

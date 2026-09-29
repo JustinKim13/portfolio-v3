@@ -18,13 +18,6 @@
   --sidebar-width:  240px;
   --player-height:  90px;
 
-  /* Wrapped gradients — one per career year */
-  --wrapped-2021: linear-gradient(135deg, #ff6b6b 0%, #feca57 100%);
-  --wrapped-2022: linear-gradient(135deg, #48dbfb 0%, #ff9ff3 100%);
-  --wrapped-2023: linear-gradient(135deg, #ff9f43 0%, #ee5a24 100%);
-  --wrapped-2024: linear-gradient(135deg, #a29bfe 0%, #6c5ce7 100%);
-  --wrapped-2025: linear-gradient(135deg, #00b894 0%, #00cec9 100%);
-
   /* Custom cursor vars */
   --cx: 0px;
   --cy: 0px;
